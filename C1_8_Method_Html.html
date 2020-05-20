@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--https://jsfiddle.net/5uefp7dn/-->
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    button{
+        padding: 20px;
+        background: transparent;
+        border: 1px solid blue;
+        }
+    </style>
+</head>
+<body>
+
+<button>Change content of all p elements</button>
+
+<p>This is a <b>paragraph</b>.</p>
+<p>This is another paragraph.</p>
+
+
+<script>
+function JQuery (selector, context = document){
+	this.elements = Array.from(context.querySelectorAll(selector));
+	return this
+};
+
+JQuery.prototype.each = function (fn){
+	this.elements.forEach((element, index) => fn.call(element, element, index));
+	return this;
+};
+
+JQuery.prototype.click = function(fn){
+	this.each(element => element.addEventListener('click', fn))
+	return this
+};
+
+JQuery.prototype.html = function(value){
+
+  // if (!value) return this.elements[0].innerHTML;
+  if (!value) return this.elements.map(element => element.innerHTML);
+  this.each(element => element.innerHTML = value);
+  return this;
+};
+
+const $ = (e) => new JQuery(e);
+
+$("button").click(function(){
+    $("p").html("Hello <b>world!</b>");
+  });
+
+console.log($("p").html());
+
+</script>
+</body>
+</html>

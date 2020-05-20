@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--https://jsfiddle.net/omx4fskr/-->
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    button{
+        padding: 20px;
+        background: transparent;
+        border: 1px solid blue;
+        }
+    </style>
+</head>
+<body>
+
+<button>Button to change text to Hello text World</button>
+<br>
+<p>This is a <b>first</b> string</p>
+<p>This is a second string</p>
+
+<script>
+function JQuery (selector, context = document){
+	this.elements = Array.from(context.querySelectorAll(selector));
+	return this
+};
+
+JQuery.prototype.each = function (fn){
+	this.elements.forEach((element, index) => fn.call(element, element, index));
+	return this;
+};
+
+JQuery.prototype.click = function(fn){
+	this.each(element => element.addEventListener('click', fn))
+	return this
+};
+
+JQuery.prototype.text = function(value){
+  if (!value) return this.elements.map(element => element.outerText)
+  this.each(element => element.outerText = value);
+  return this;
+};
+
+const $ = (e) => new JQuery(e);
+
+$("button").click(function(){
+    $("p").text("\nHello text world!\n");
+  });
+
+console.log($("p").text());
+
+</script>
+</body>
+</html>
